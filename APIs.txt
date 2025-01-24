@@ -1,0 +1,23 @@
+General search:
+- Google search API
+
+Maps and location:
+- Google maps for routing
+- SerpApi location based places
+
+News:
+- Newsdata.io for general headline and description collection
+- Gedelt project for news data analysis
+
+Scholarly articles:
+- Semantic scholar (tldrs are only for com sci and biomed, so might need to find a way to get tldrs for other papers)
+- TLDR this api for TLDRing papers from other palces if Semantic scholar isn't conclusive enough
+
+Social media:
+- X.com for trending and individual Xs(???) from individuals or tags
+- Reddit for subreddits and individual posts
+- Getrecall or similar youtube sumarisation
+
+Coding:
+- Github for search projects and users
+

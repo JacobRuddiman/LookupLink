@@ -1,0 +1,10 @@
+model_provider: openai
+model: gpt-4o
+
+allowed_providers:
+  - openai
+  - anthropic
+  - ollama
+
+allowed_models:
+  - gpt-4o
