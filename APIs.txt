@@ -21,3 +21,12 @@ Social media:
 Coding:
 - Github for search projects and users
 
+Ecommerce:
+- Amazon product API
+
+Literature:
+- Google books API
+- Internet archive open library API
+
+Weather:
+- Openweathermap API

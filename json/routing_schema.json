@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "tool_calls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string" },
+          "api": { "type": "string" },
+          "method": { "type": "string" },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": ["category", "api", "method", "parameters"],
+        "allOf": [
+          {
+            "if": { "properties": { "api": { "const": "google_search" } } },
+            "then": { "properties": { "parameters": { "required": ["query"] } } }
+          }
+        ]
+      }
+    }
+  },
+  "required": ["tool_calls"]
+}

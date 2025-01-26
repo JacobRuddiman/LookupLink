@@ -8,3 +8,6 @@ allowed_providers:
 
 allowed_models:
   - gpt-4o
+
+safe: "off"
+cx: "91cb417d94ab94c8b"
