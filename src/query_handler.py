@@ -25,14 +25,17 @@ def handle_query():
     if not data or "query" not in data:
         return jsonify({"error": "Invalid request, 'query' is required"}), 400
 
+    print("DATA:", data)
     user_query = data["query"]
 
     response = process_query(user_query)
     return jsonify(response)
 
-def process_query(query):
+def process_query(query): 
 
-    routing_response = tool_calling.route_calls(query)
+    print("QUERY:", query)
+
+    routing_response = call_model.call_model(query, "../prompts/routing_sys_prompt_v1.txt")
     
     tool_responses = tool_calling.route_calls(routing_response) 
 

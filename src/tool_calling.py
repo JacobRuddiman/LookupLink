@@ -2,8 +2,11 @@ import json
 import jsonschema
 import requests
 import yaml
+import dotenv
 
 import call_model
+import os
+
 
 def extract_json_from_response(response_text):
     try:
@@ -52,7 +55,18 @@ def route_calls(response_tool_call):
             api_names.append(api_name)
 
     print("API Names:", api_names)
-    return None
+
+    # Call the appropriate API based on the extracted API names
+    responses = []
+
+    if "google_search" in api_names:
+        google_search_json = extract_tool_info(json_tool_call, "google_search")
+        google_search_response = google_search_api(google_search_json[0], "../config.yaml")
+        responses.append(google_search_response)
+    return responses
+
+
+
 
 def extract_tool_info(json_tool_call, target_api):
     if not isinstance(json_tool_call, dict) or "tool_calls" not in json_tool_call:
@@ -60,11 +74,12 @@ def extract_tool_info(json_tool_call, target_api):
         return []
 
     tool_calls = json_tool_call.get("tool_calls", [])
+    print("TOOL CALLS:", tool_calls)
     filtered_tools = [tool for tool in tool_calls if tool.get("api") == target_api]
 
     return filtered_tools
 
-def google_search_api(search_json, yaml_config_path):
+def  google_search_api(search_json, yaml_config_path):
     # Load config from YAML
     with open(yaml_config_path, "r") as yaml_file:
         config = yaml.safe_load(yaml_file)
@@ -76,22 +91,34 @@ def google_search_api(search_json, yaml_config_path):
     if not cx:
         raise ValueError("The 'cx' parameter (custom search engine ID) is missing in the YAML configuration.")
 
+    print("SEARCH_JSON:", search_json)
     # Extract dynamic parameters from JSON
-    query = search_json.get("q")  # Optional query
-    num = search_json.get("num", 10)  # Default to 10 if not provided
+    query = search_json.get("parameters", {}).get("query")  
+    num = search_json.get("parameters", {}).get("num", 10)  # Default to 10 if not provided
 
     # Ensure valid range for 'num'
     if not (1 <= num <= 10):
         num = 10
+
+    dotenv.load_dotenv()
+
+    if "GOOGLE_SEARCH_KEY" not in os.environ:
+        raise ValueError("The 'GOOGLE_SEARCH_KEY' environment variable is not set.")
+    
+    google_search_api_key = os.environ["GOOGLE_SEARCH_KEY"]
+
 
     # Prepare request parameters
     params = {
         "q": query,
         "num": num,
         "safe": safe,
-        "key": config.get("api_key"),  # API key from YAML
+        "key": google_search_api_key,  # API key from YAML
         "cx": cx
     }
+
+    print("PARAMS:", params)
+
 
     # Remove any parameters that are None
     params = {k: v for k, v in params.items() if v is not None}
