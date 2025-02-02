@@ -11,3 +11,14 @@ allowed_models:
 
 safe: "off"
 cx: "91cb417d94ab94c8b"
+
+semantic_scholar_bulk:
+  endpoint: "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
+  fields: "paperId,title"
+  sort: "paperId:asc"
+  publicationTypes: ""         # Add a comma-separated list if needed, e.g., "Review,JournalArticle"
+  openAccessPdf: ""            # Set to "true" if you want only papers with a public PDF
+  minCitationCount: ""         # e.g., "200" to filter for highly cited papers
+  publicationDateOrYear: ""    # e.g., "2019-01-01:2020-12-31" for a date range
+  year: ""                     # e.g., "2020" for papers published in 2020
+  venue: ""                    # e.g., "Nature,Science" for specific publication venues
